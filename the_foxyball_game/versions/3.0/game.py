@@ -373,10 +373,10 @@ punkty_graczy = [punkty_gracz1, punkty_gracz2]
 while gameplay:
     punkty_graczy = Game(punkty_graczy).zwroc_wynik()
     print("Obecny wynik: {}/{}".format(punkty_graczy[0], punkty_graczy[1]))
-    if punkty_graczy[0] == 2:
+    if punkty_graczy[0] == 5:
         print("Gracz 1 WYGRAŁ!")
         gameplay = False
-    elif punkty_graczy[1] == 2:
+    elif punkty_graczy[1] == 5:
         print("Gracz 2 WYGRAŁ!")
         gameplay = False
 

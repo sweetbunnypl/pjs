@@ -121,30 +121,29 @@ class Game(object):
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-            self.czas += self.clock.tick()/1000.0
-            while self.czas > 1/self.max_fps:
-                self.czas -= 1/self.max_fps
+            #self.czas += self.clock.tick()/1000.0
+            #while self.czas > 1/self.max_fps:
+                #self.czas -= 1/self.max_fps
 
-                #RUCH GRACZY:
-                self.odczyt_klawiszy_gracz1()
-                self.odczyt_klawiszy_gracz2()
-                self.ruch()
-                self.ruch_pilki()
-
-                #WYŚWIETLANIE OBECNEJ POZYCJI OBIEKTÓW:
-                text = font.render("%d///%d///%f////GRACZ 1: x:%d y:%d GRACZ 2: x:%d y:%d" % (self.punkty_graczy[0], self.punkty_graczy[1], self.dx_pilki,self.x_gracz1, self.y_gracz1, self.x_gracz2, self.y_gracz2), True, WHITE, BLACK)
-                textRect = text.get_rect()
-                textRect.center = (WIDTH/2, HEIGHT/6)
-                text2 = font.render("ODBICIA %d///%d///GRACZ 1: a:%d d:%d GRACZ 2: j:%d l:%d" % (self.odbicia, self.odbicia2, self.keys1[2], self.keys1[3], self.keys2[2], self.keys2[3]), True, WHITE, BLACK)
-                textRect2 = text2.get_rect()
-                textRect2.center = (WIDTH/2, HEIGHT/10)
-
-                #WYŚWIETLANIE OBIEKTÓW:
-                self.screen.blit(self.background, (0, 0))
-                self.screen.blit(text, textRect)
-                self.screen.blit(text2, textRect2)
-                self.rysuj()
-                pygame.display.flip()
+            #RUCH GRACZY:
+            self.odczyt_klawiszy_gracz1()
+            self.odczyt_klawiszy_gracz2()
+            self.ruch()
+            self.ruch_pilki()
+            #WYŚWIETLANIE OBECNEJ POZYCJI OBIEKTÓW:
+            text = font.render("%d///%d///%f////GRACZ 1: x:%d y:%d GRACZ 2: x:%d y:%d" % (self.punkty_graczy[0], self.punkty_graczy[1], self.dx_pilki,self.x_gracz1, self.y_gracz1, self.x_gracz2, self.y_gracz2), True, WHITE, BLACK)
+            textRect = text.get_rect()
+            textRect.center = (WIDTH/2, HEIGHT/6)
+            text2 = font.render("CZAS: %f///ODBICIA %d///%d///GRACZ 1: a:%d d:%d GRACZ 2: j:%d l:%d" % (self.czas, self.odbicia, self.odbicia2, self.keys1[2], self.keys1[3], self.keys2[2], self.keys2[3]), True, WHITE, BLACK)
+            textRect2 = text2.get_rect()
+            textRect2.center = (WIDTH/2, HEIGHT/10)
+            #WYŚWIETLANIE OBIEKTÓW:
+            self.screen.blit(self.background, (0, 0))
+            self.screen.blit(text, textRect)
+            self.screen.blit(text2, textRect2)
+            self.rysuj()
+            self.clock.tick(60)
+            pygame.display.flip()
         self.zwroc_wynik()
 
     def odczyt_klawiszy_gracz1(self):
@@ -348,7 +347,7 @@ class Game(object):
         elif pygame.Rect.colliderect(self.hitbox_gracz1_dolny, self.pilka) and self.y_pilki>self.y_gracz1:
             self.dy_pilki = 80
             self.y_pilki = self.y_gracz1 + self.promien_pilki*2
-
+        #JESLI GRACZ 2 UDERZA PILKE
         if pygame.Rect.colliderect(self.hitbox_gracz2_gorny, self.pilka) and self.y_pilki<=self.y_gracz2:
             self.dy_pilki = -80
             self.y_pilki = self.y_gracz2 - self.promien_pilki*2

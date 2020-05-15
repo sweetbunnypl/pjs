@@ -11,6 +11,8 @@ class gracz2(object):
         self.HEIGHT = settings().HEIGHT
         self.g = settings().g
         self.dt = settings().dt
+        self.wysokosc_skoku = settings().wysokosc_skoku
+        self.szybkosc_poruszania = settings().szybkosc_poruszania
         #static
         self.hitbox_siatka_prawy = static().hitbox_siatka_prawy
         self.prawa_ramka = static().prawa_ramka
@@ -44,16 +46,16 @@ class gracz2(object):
         if klawiatura[pygame.K_i] and not self.lot:
             self.keys[0] = 1
             self.lot = 1
-            self.dy = -60
+            self.dy = self.wysokosc_skoku
         else:
             self.keys[0] = 0
 
     def ruch(self):
         self.dx = 0
         if self.keys[2]:
-            self.dx -= 40
+            self.dx -= self.szybkosc_poruszania
         if self.keys[3]:
-            self.dx += 40
+            self.dx += self.szybkosc_poruszania
 
         if self.lot:
             self.dy = self.dy + self.g * self.dt

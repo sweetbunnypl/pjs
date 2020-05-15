@@ -13,6 +13,8 @@ from settings.settings import settings
 from static_objects.static import static
 from ball.ball import pilka
 
+max_liczba_punktow = settings().max_liczba_punktow
+
 WIDTH = settings().WIDTH
 HEIGHT = settings().HEIGHT
 BLACK = settings().BLACK
@@ -33,6 +35,11 @@ class Game(object):
         self.g = settings().g
         self.dt = settings().dt
         self.max_fps = settings().max_fps
+        self.max_dozwolonych_odbic = settings().max_dozwolonych_odbic
+        #self.max_liczba_punktow = settings().max_liczba_punktow
+        self.wysokosc_odbicia_pilki_przez_gracza = settings().wysokosc_odbicia_pilki_przez_gracza
+        self.wysokosc_odbicia_pilki_od_siatki = settings().wysokosc_odbicia_pilki_od_siatki
+        self.szybkosc_pilki_x = settings().szybkosc_pilki_x
 
         #SCREEN
         self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -49,11 +56,7 @@ class Game(object):
         self.punkty_gracz1 = self.punkty_graczy[0]
         self.punkty_gracz2 = self.punkty_graczy[1]
 
-        #INICJACJA ELEMENTÓW     
-        #LICZBA ODBIĆ
-        self.odbicia = 0
-        self.odbicia2 = 0
-
+        #INICJACJA ELEMENTÓW
         #PLANSZA
         self.podloga = static().podloga
         self.sufit = static().sufit
@@ -78,6 +81,12 @@ class Game(object):
         self.x_siatki = static().x_siatki
         self.y_siatki = static().y_siatki
         #PIŁKA:
+        #self.pilka = pilka()
+        #LICZBA ODBIĆ
+        self.odbicia = 0
+        self.odbicia2 = 0
+        #self.odbicia = self.pilka.odbicia
+        #self.odbicia2 = self.pilka.odbicia2
         self.promien_pilki = 25
         self.x_pilki = 0.5*WIDTH-self.promien_pilki
         self.y_pilki = 0.2*HEIGHT
@@ -90,7 +99,7 @@ class Game(object):
         #PĘTLA
         self.clock = pygame.time.Clock()
         self.czas = 0.0
-        self.foxygame = True
+        self.foxygame = settings().foxygame
         while self.foxygame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -105,6 +114,7 @@ class Game(object):
             self.gracz2.odczyt_klawiszy()
             self.gracz1.ruch()
             self.gracz2.ruch()
+            #self.pilka.ruch()
             self.ruch_pilki()
             #WYŚWIETLANIE OBECNEJ POZYCJI OBIEKTÓW:
             text = font.render("PUNKTY GRACZ 1: %d  |  PUNKTY GRACZ 2: %d" % (self.punkty_graczy[0], self.punkty_graczy[1]), True, WHITE, BLACK)
@@ -113,14 +123,10 @@ class Game(object):
             text2 = font.render("ODBICIA GRACZ 1: %d  |  ODBICIA GRACZ 2: %d" % (self.odbicia, self.odbicia2), True, WHITE, BLACK)
             textRect2 = text2.get_rect()
             textRect2.center = (WIDTH/2, HEIGHT/10)
-            text3 = font.render("PILKA: dx:%f dy:%d x:%d y:%d" % (self.dx_pilki, self.dy_pilki, self.x_pilki, self.y_pilki), True, WHITE, BLACK)
-            textRect3 = text3.get_rect()
-            textRect3.center = (WIDTH/2, HEIGHT/4.5)
             #WYŚWIETLANIE OBIEKTÓW:
             self.screen.blit(self.background, (0, 0))
             self.screen.blit(text, textRect)
             self.screen.blit(text2, textRect2)
-            self.screen.blit(text3, textRect3)
             self.rysuj()
             self.clock.tick(60)
             pygame.display.flip()
@@ -170,6 +176,8 @@ class Game(object):
         pygame.draw.rect(self.screen, RED, self.gracz2.hitbox_dolny)
 
         #PIŁKA
+        #self.pilka.pilka = pygame.Rect(self.pilka.x_pilki, self.pilka.y_pilki, 2*self.pilka.promien_pilki, 2*self.pilka.promien_pilki)
+        #pygame.draw.rect(self.screen, RED, self.pilka.pilka)
         self.pilka = pygame.Rect(self.x_pilki, self.y_pilki, 2*self.promien_pilki, 2*self.promien_pilki)
         pygame.draw.rect(self.screen, RED, self.pilka)
         #pygame.draw.circle(self.screen, GREEN, self.pozycja_pilki, self.promien_pilki)
@@ -189,10 +197,10 @@ class Game(object):
             self.foxygame = False
             self.punkty_gracz1 += 1
         #JESLI GRACZ ODBIJE JA PONAD 3 RAZY
-        if self.odbicia >= 4:
+        if self.odbicia > self.max_dozwolonych_odbic:
             self.foxygame = False
             self.punkty_gracz2 += 1
-        if self.odbicia2 >= 4:
+        if self.odbicia2 > self.max_dozwolonych_odbic:
             self.foxygame = False
             self.punkty_gracz1 += 1
         #JESLI ODBIJE SIE OD SUFITU
@@ -204,43 +212,43 @@ class Game(object):
         #JESLI DOTKNIE GORY SIATKI
         if pygame.Rect.colliderect(self.hitbox_siatka_gorny, self.pilka):
             if self.dx_pilki < 0:
-                self.dx_pilki = -(self.x_siatki+(self.szerokosc_siatki/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_siatki/2)
+                self.dx_pilki = -(self.x_siatki+(self.szerokosc_siatki/2)-(self.x_pilki+self.promien_pilki))*self.szybkosc_pilki_x/(self.szerokosc_siatki/2)
             elif self.dx_pilki > 0:
-                self.dx_pilki = -(self.x_siatki+(self.szerokosc_siatki/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_siatki/2)
+                self.dx_pilki = -(self.x_siatki+(self.szerokosc_siatki/2)-(self.x_pilki+self.promien_pilki))*self.szybkosc_pilki_x/(self.szerokosc_siatki/2)
             else:
                 while self.dx_pilki == 0:
                     self.dx_pilki = randrange(-10, 10)
                     self.dx_pilki /= 10
-            self.dy_pilki = -40
+            self.dy_pilki = self.wysokosc_odbicia_pilki_od_siatki
         #JESLI GRACZ 1 JA DOTKNIE:
         if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) and not pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka):
             gracz_a_pilka = (self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))
             if gracz_a_pilka < 0:
-                self.dx_pilki = -(self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*5
+                self.dx_pilki = -(self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*self.szybkosc_pilki_x
             else:
-                self.dx_pilki = -(self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*5
+                self.dx_pilki = -(self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*self.szybkosc_pilki_x
         #JESLI GRACZ 2 JA DOTKNIE:
         if pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) and not pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka):
             gracz_a_pilka2 = (self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))
             if gracz_a_pilka2 < 0:
-                self.dx_pilki = -(self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*5
+                self.dx_pilki = -(self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*self.szybkosc_pilki_x
             else:
-                self.dx_pilki = -(self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*5
+                self.dx_pilki = -(self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*self.szybkosc_pilki_x
         #JESLI GRACZ 1 UDERZA PILKE
         if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) and self.y_pilki<=self.gracz1.y:
-            self.dy_pilki = -80
+            self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
             self.y_pilki = self.gracz1.y - self.promien_pilki*2
             self.odbicia += 1
         elif pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz1.y:
-            self.dy_pilki = 80
+            self.dy_pilki = -self.wysokosc_odbicia_pilki_przez_gracza
             self.y_pilki = self.gracz1.y + self.promien_pilki*2
         #JESLI GRACZ 2 UDERZA PILKE
         if pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) and self.y_pilki<=self.gracz2.y:
-            self.dy_pilki = -80
+            self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
             self.y_pilki = self.gracz2.y - self.promien_pilki*2
             self.odbicia2 += 1
         elif pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz2.y:
-            self.dy_pilki = 80
+            self.dy_pilki = -self.wysokosc_odbicia_pilki_przez_gracza
             self.y_pilki = self.gracz2.y + self.promien_pilki*2
 
         self.dy_pilki = self.dy_pilki + self.g * self.dt
@@ -260,10 +268,14 @@ menu()
 while gameplay:
     punkty_graczy = Game(punkty_graczy).zwroc_wynik()
     print("Obecny wynik: {}/{}".format(punkty_graczy[0], punkty_graczy[1]))
-    if punkty_graczy[0] == 5:
+    if punkty_graczy[0] >= max_liczba_punktow:
         print("Gracz 1 WYGRAŁ!")
-        gameplay = False
-    elif punkty_graczy[1] == 5:
+        punkty_graczy = [0, 0]
+        menu()
+        #gameplay = False
+    elif punkty_graczy[1] >= max_liczba_punktow:
         print("Gracz 2 WYGRAŁ!")
-        gameplay = False
+        punkty_graczy = [0, 0]
+        menu()
+        #gameplay = False
 

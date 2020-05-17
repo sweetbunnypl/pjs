@@ -16,8 +16,8 @@ class static(object):
         self.wysokosc_graczy = settings().wysokosc_graczy
 
         #SIATKA
-        self.szerokosc_siatki = self.WIDTH*0.05
-        self.wysokosc_siatki = self.HEIGHT*0.45
+        self.szerokosc_siatki = settings().szerokosc_siatki #self.WIDTH*0.05
+        self.wysokosc_siatki = settings().wysokosc_siatki #self.HEIGHT*0.45
         self.x_siatki = (self.WIDTH-self.szerokosc_siatki)/2
         self.y_siatki = (self.HEIGHT*0.8-self.wysokosc_siatki+self.wysokosc_graczy)
         self.siatka = pygame.Rect(self.x_siatki, self.y_siatki, self.szerokosc_siatki, self.wysokosc_siatki)

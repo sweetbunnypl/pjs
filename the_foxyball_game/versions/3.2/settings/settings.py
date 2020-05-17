@@ -17,12 +17,14 @@ class settings(object):
         path = current_path+'/settings/parameters.txt'
         with open(path, 'r') as plik:
             data = plik.readlines()
-        #WIELKOSC GRACZY
-        self.szerokosc_graczy = int(data[1])
-        self.wysokosc_graczy = int(data[2])
         #WIELKOSC OKNA
         self.WIDTH = int(data[4])
         self.HEIGHT = int(data[5])
+        #MNOZNIK
+        self.mnoznik_obiektow = self.WIDTH/1280
+        #WIELKOSC GRACZY
+        self.szerokosc_graczy = int(data[1])
+        self.wysokosc_graczy = int(data[2])
         #FIZYKA
         self.g = float(data[7])
         self.dt = float(data[8])
@@ -36,4 +38,8 @@ class settings(object):
         self.wysokosc_odbicia_pilki_przez_gracza = int(data[16])
         self.wysokosc_odbicia_pilki_od_siatki = int(data[17])
         self.szybkosc_pilki_x = int(data[18])
+        self.promien_pilki = int(data[19])
+        #SIATKA
+        self.wysokosc_siatki = int(data[21])
+        self.szerokosc_siatki = int(data[22])
         plik.close()

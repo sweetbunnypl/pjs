@@ -6,7 +6,7 @@ from settings.settings import settings
 from static_objects.static import static
 from players.gracz1 import gracz1
 from players.gracz2 import gracz2
-from players.bot import bot
+#from players.bot import bot
 
 class pilka(object):
     #pilka

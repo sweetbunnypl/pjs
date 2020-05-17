@@ -7,21 +7,21 @@ system('clear')
 #IMPORT WLASNYCH:
 from players.gracz1 import gracz1
 from players.gracz2 import gracz2
-from players.bot import bot
+#from players.bot import bot
 from menu.game_menu import menu
 from settings.settings import settings
 from static_objects.static import static
 from ball.ball import pilka
 
-max_liczba_punktow = settings().max_liczba_punktow
-
-WIDTH = settings().WIDTH
-HEIGHT = settings().HEIGHT
-BLACK = settings().BLACK
-WHITE = settings().WHITE
-GREEN = settings().GREEN
-GRAY = settings().GRAY
-RED = settings().RED
+#max_liczba_punktow = settings().max_liczba_punktow
+#
+#WIDTH = settings().WIDTH
+#HEIGHT = settings().HEIGHT
+#BLACK = settings().BLACK
+#WHITE = settings().WHITE
+#GREEN = settings().GREEN
+#GRAY = settings().GRAY
+#RED = settings().RED
 
 pygame.init()
 music = pygame.mixer.music.load('music/background_music.mp3')
@@ -87,7 +87,7 @@ class Game(object):
         self.odbicia2 = 0
         #self.odbicia = self.pilka.odbicia
         #self.odbicia2 = self.pilka.odbicia2
-        self.promien_pilki = 25
+        self.promien_pilki = settings().promien_pilki
         self.x_pilki = 0.5*WIDTH-self.promien_pilki
         self.y_pilki = 0.2*HEIGHT
         self.dx_pilki = 0
@@ -221,19 +221,31 @@ class Game(object):
                     self.dx_pilki /= 10
             self.dy_pilki = self.wysokosc_odbicia_pilki_od_siatki
         #JESLI GRACZ 1 JA DOTKNIE:
-        if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) and not pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka):
+        if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) or pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka):
             gracz_a_pilka = (self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))
             if gracz_a_pilka < 0:
-                self.dx_pilki = -(self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*self.szybkosc_pilki_x
+                self.dx_pilki = -(self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))*self.szybkosc_pilki_x/(self.szerokosc_graczy/2)
             else:
-                self.dx_pilki = -(self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*self.szybkosc_pilki_x
+                self.dx_pilki = -(self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))*self.szybkosc_pilki_x/(self.szerokosc_graczy/2)
+        if pygame.Rect.colliderect(self.gracz1.hitbox_lewy, self.pilka) and not (pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) or pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka)):
+            self.dx_pilki *= -1
+            self.x_pilki = self.gracz1.x-self.promien_pilki*2
+        if pygame.Rect.colliderect(self.gracz1.hitbox_prawy, self.pilka) and not (pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) or pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka)):
+            self.dx_pilki *= -1
+            self.x_pilki = self.gracz1.x+self.szerokosc_graczy
         #JESLI GRACZ 2 JA DOTKNIE:
-        if pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) and not pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka):
+        if pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) or pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka):
             gracz_a_pilka2 = (self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))
             if gracz_a_pilka2 < 0:
-                self.dx_pilki = -(self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*self.szybkosc_pilki_x
+                self.dx_pilki = -(self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))*self.szybkosc_pilki_x/(self.szerokosc_graczy/2)
             else:
-                self.dx_pilki = -(self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))/(self.szerokosc_graczy/2)*self.szybkosc_pilki_x
+                self.dx_pilki = -(self.gracz2.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))*self.szybkosc_pilki_x/(self.szerokosc_graczy/2)
+        if pygame.Rect.colliderect(self.gracz2.hitbox_lewy, self.pilka) and not (pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) or pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka)):
+            self.dx_pilki *= -1
+            self.x_pilki = self.gracz2.x-self.promien_pilki*2
+        if pygame.Rect.colliderect(self.gracz2.hitbox_prawy, self.pilka) and not (pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) or pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka)):
+            self.dx_pilki *= -1
+            self.x_pilki = self.gracz1.x+self.szerokosc_graczy
         #JESLI GRACZ 1 UDERZA PILKE
         if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) and self.y_pilki<=self.gracz1.y:
             self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
@@ -266,6 +278,14 @@ punkty_gracz2 = 0
 punkty_graczy = [punkty_gracz1, punkty_gracz2]
 menu()
 while gameplay:
+    max_liczba_punktow = settings().max_liczba_punktow
+    WIDTH = settings().WIDTH
+    HEIGHT = settings().HEIGHT
+    BLACK = settings().BLACK
+    WHITE = settings().WHITE
+    GREEN = settings().GREEN
+    GRAY = settings().GRAY
+    RED = settings().RED
     punkty_graczy = Game(punkty_graczy).zwroc_wynik()
     print("Obecny wynik: {}/{}".format(punkty_graczy[0], punkty_graczy[1]))
     if punkty_graczy[0] >= max_liczba_punktow:

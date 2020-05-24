@@ -21,6 +21,7 @@ class menu(object):
 
     def __init__(self):
         pygame.mixer.music.load('music/menu_music.mp3')
+        pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play(-1)
         self.max_fps = 60.0
         self.n = 0

@@ -26,10 +26,16 @@ from ball.ball import pilka
 class Game(object):
 
     def __init__(self, punkty_graczy):
+        pygame.mixer.pre_init(22050, -16, 2, 1024)
         pygame.init()
+        pygame.mixer.quit()
+        pygame.mixer.init(22050, -16, 2, 1024)
         pygame.mixer.music.load('music/background_music.mp3')
+        pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play(-1)
-        self.uderzenie = pygame.mixer.Sound('music/bounce_1.wav')
+        self.uderzenie1 = pygame.mixer.Sound('music/bounce_1.wav')
+        self.uderzenie2 = pygame.mixer.Sound('music/bounce_2.wav')
+        self.uderzenie3 = pygame.mixer.Sound('music/bounce_3.wav')
         font = pygame.font.Font('fonts/ostrich-regular.ttf', 32)
         font0 = pygame.font.Font('fonts/ostrich-heavy.otf', 78)
         font1 = pygame.font.Font('fonts/ostrich-heavy.otf', 60)
@@ -209,10 +215,12 @@ class Game(object):
             self.dy_pilki = -60
             self.foxygame = False
             self.punkty_gracz2 += 1
+            self.wybierz_dzwiek()
         if pygame.Rect.colliderect(self.podloga, self.pilka) and self.x_pilki+self.promien_pilki>self.x_siatki+(self.szerokosc_siatki/2):
             self.dy_pilki = -60
             self.foxygame = False
             self.punkty_gracz1 += 1
+            self.wybierz_dzwiek()
         #JESLI GRACZ ODBIJE JA PONAD MAX RAZY
         if self.odbicia > self.max_dozwolonych_odbic:
             self.foxygame = False
@@ -224,10 +232,11 @@ class Game(object):
         #JESLI ODBIJE SIE OD SUFITU
         if pygame.Rect.colliderect(self.sufit, self.pilka):
             self.dy_pilki *= -1
-            #self.uderzenie.play()
+            self.wybierz_dzwiek()
         #JESLI DOTKNIE LEWEJ LUB PRAWEJ STRONY SIATKI/PLANSZY
         if pygame.Rect.colliderect(self.lewa_ramka, self.pilka) or pygame.Rect.colliderect(self.prawa_ramka, self.pilka) or pygame.Rect.colliderect(self.hitbox_siatka_prawy, self.pilka) or pygame.Rect.colliderect(self.hitbox_siatka_lewy, self.pilka):
             self.dx_pilki *= -1
+            self.wybierz_dzwiek()
         #JESLI DOTKNIE GORY SIATKI
         if pygame.Rect.colliderect(self.hitbox_siatka_gorny, self.pilka):
             if self.dx_pilki < 0:
@@ -239,6 +248,7 @@ class Game(object):
                     self.dx_pilki = randrange(-10, 10)
                     self.dx_pilki /= 10
             self.dy_pilki = self.wysokosc_odbicia_pilki_od_siatki
+            self.wybierz_dzwiek()
         #JESLI GRACZ 1 JA DOTKNIE:
         if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) or pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka):
             gracz_a_pilka = (self.gracz1.x+(self.szerokosc_graczy/2)-(self.x_pilki+self.promien_pilki))
@@ -270,23 +280,36 @@ class Game(object):
             self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
             #self.y_pilki = self.gracz1.y - self.promien_pilki*2
             self.odbicia += 1
+            self.wybierz_dzwiek()
         elif pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz1.y:
             self.dy_pilki = -self.wysokosc_odbicia_pilki_przez_gracza
             self.y_pilki = self.gracz1.y + self.wysokosc_graczy
+            self.wybierz_dzwiek()
         #JESLI GRACZ 2 UDERZA PILKE
         if pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) and self.y_pilki<=self.gracz2.y:
             self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
             #self.y_pilki = self.gracz2.y - self.promien_pilki*2
             self.odbicia2 += 1
+            self.wybierz_dzwiek()
         elif pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz2.y:
             self.dy_pilki = -self.wysokosc_odbicia_pilki_przez_gracza
             self.y_pilki = self.gracz2.y + self.wysokosc_graczy
+            self.wybierz_dzwiek()
 
         self.dy_pilki = self.dy_pilki + self.g * self.dt
         self.y_pilki = self.y_pilki + self.dy_pilki * self.dt
         self.x_pilki += self.dx_pilki
 
         #self.pozycja_pilki = (int(self.x_pilki+self.promien_pilki), int(self.y_pilki+self.promien_pilki))
+
+    def wybierz_dzwiek(self):
+        wybor_dzwieku = randrange(0, 100)
+        if wybor_dzwieku >= 33:
+            self.uderzenie1.play()
+        elif wybor_dzwieku < 33 and wybor_dzwieku >= 67:
+            self.uderzenie2.play()
+        else:
+            self.uderzenie3.play()
     
     def zwroc_wynik(self):
         return [self.punkty_gracz1, self.punkty_gracz2]

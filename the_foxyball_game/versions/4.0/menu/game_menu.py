@@ -9,6 +9,9 @@ GREEN = settings().GREEN
 GRAY = settings().GRAY
 RED = settings().RED
 ORANGE = settings().ORANGE
+pygame.mixer.pre_init(44100, -16, 2, 512)
+pygame.mixer.quit()
+pygame.mixer.init()
 pygame.init()
 font0 = pygame.font.Font('fonts/ostrich-regular.ttf', 78)
 font0_0 = pygame.font.Font('fonts/ostrich-heavy.otf', 78)
@@ -27,6 +30,9 @@ class menu(object):
         self.n = 0
         self.menu_position = [0,0,0,0]
         self.mnoznik_obiektow = settings().mnoznik_obiektow
+        self.dzwiek_zmiana = pygame.mixer.Sound('music/menu_change.wav')
+        self.dzwiek_enter = pygame.mixer.Sound('music/menu_enter.wav')
+        self.dzwiek_wroc = pygame.mixer.Sound('music/menu_quit.wav')
 
         #SCREEN
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -38,9 +44,13 @@ class menu(object):
         while self.menu_time:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.dzwiek_wroc.play()
+                    pygame.time.wait(500)
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.dzwiek_wroc.play()
+                    pygame.time.wait(500)
                     pygame.quit()
                     sys.exit()
 
@@ -48,6 +58,7 @@ class menu(object):
             self.screen.blit(self.background, (0, 0))
             self.wyswietlanie_menu()
             pygame.display.flip()
+            
 
     def wyswietlanie_menu(self):
 #MAIN MENU
@@ -386,17 +397,17 @@ class menu(object):
             txt2 = 1
         
         if self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 2 and self.n == 3:
-            text3 = font.render("0.5", True, BLACK, WHITE)
+            text3 = font.render("0.15", True, BLACK, WHITE)
             txt3 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] != 2 and self.n == 3:
-            text3 = font.render("0.5", True, WHITE, BLACK)
+            text3 = font.render("0.15", True, WHITE, BLACK)
             txt3 = 1
         
         if self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 3 and self.n == 3:
-            text4 = font.render("1.0", True, BLACK, WHITE)
+            text4 = font.render("0.25", True, BLACK, WHITE)
             txt4 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] != 3 and self.n == 3:
-            text4 = font.render("1.0", True, WHITE, BLACK)
+            text4 = font.render("0.25", True, WHITE, BLACK)
             txt4 = 1
 #------------------------------------------------------------------------------------------------------------------------------------#
 #MENU ---> USTAWIENIA ---> PUNKTACJA
@@ -688,262 +699,346 @@ class menu(object):
             if self.n == 0:
                 if self.menu_position[self.n] == 0:
                     self.menu_position[self.n] = 3
+                    self.dzwiek_zmiana.play()
                 else:
                     self.menu_position[self.n] -= 1
+                    self.dzwiek_zmiana.play()
             #USTAWIENIA
             elif self.menu_position[0] == 1 and self.n == 1:
                 if self.menu_position[self.n] == 0:
                     self.menu_position[self.n] = 5
+                    self.dzwiek_zmiana.play()
                 else:
                     self.menu_position[self.n] -= 1
+                    self.dzwiek_zmiana.play()
             #GRACZE
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.n == 2:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 2
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #WIELKOSC EKRANU OPCJE
             elif self.menu_position[0] == 1 and self.menu_position[1] == 1 and self.n == 2:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 2
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #FIZYKA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.n == 2:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 1
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #PUNKTACJA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 3 and self.n == 2:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 1
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #PIŁKA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.n == 2:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #SIATKA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 5 and self.n == 2:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 1
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #SZEROKOSC I WYSOKOSC GRACZY
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 2
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC SKOKU GRACZA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 2
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC PORUSZANIA SIE GRACZA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 2 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 2
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #STALA GRAWITACJI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 2
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #SZYBKOSC CZASU
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #MAX DOZWOLONYCH ODBIC 
             elif self.menu_position[0] == 1 and self.menu_position[1] == 3 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #ILOSC RUND
             elif self.menu_position[0] == 1 and self.menu_position[1] == 3 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC Y ODBICIA PILKI PRZEZ GRACZA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC Y ODBICIA PILKI OD SIATKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC X PILKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.menu_position[2] == 2 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #PROMIEN PILKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.menu_position[2] == 3 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #WYSOKOSC SIATKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 5 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
             #SZEROKOSC SIATKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 5 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 0:
                    self.menu_position[self.n] = 3
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
+                   self.dzwiek_zmiana.play()
 #ILOSC ELEMENTOW W MENU (W DÓŁ)
         if klawiatura[pygame.K_DOWN] or klawiatura[pygame.K_s] or klawiatura[pygame.K_k]:
             #MAIN MENU
             if self.n == 0:
                 if self.menu_position[self.n] == 3:
                     self.menu_position[self.n] = 0
+                    self.dzwiek_zmiana.play()
                 else:
                     self.menu_position[self.n] += 1
+                    self.dzwiek_zmiana.play()
             #USTAWIENIA
             elif self.menu_position[0] == 1 and self.n == 1:
                 if self.menu_position[self.n] == 5:
                     self.menu_position[self.n] = 0
+                    self.dzwiek_zmiana.play()
                 else:
                     self.menu_position[self.n] += 1
+                    self.dzwiek_zmiana.play()
             #GRACZE
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.n == 2:
                if self.menu_position[self.n] == 2:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #WIELKOSC OKNA OPCJE
             elif self.menu_position[0] == 1 and self.menu_position[1] == 1 and self.n == 2:
                if self.menu_position[self.n] == 2:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #FIZYKA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.n == 2:
                if self.menu_position[self.n] == 1:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #PUNKTACJA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 3 and self.n == 2:
                if self.menu_position[self.n] == 1:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #PIŁKA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.n == 2:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #SIATKA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 5 and self.n == 2:
                if self.menu_position[self.n] == 1:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #SZEROKOSC I WYSOKOSC GRACZY
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 2:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC SKOKU GRACZA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 2:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC PORUSZANIA SIE GRACZA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 2 and self.n == 3:
                if self.menu_position[self.n] == 2:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #STALA GRAWITACJI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 2:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #SZYBKOSC CZASU
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #MAX DOZWOLONYCH ODBIC 
             elif self.menu_position[0] == 1 and self.menu_position[1] == 3 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #ILOSC RUND
             elif self.menu_position[0] == 1 and self.menu_position[1] == 3 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC Y ODBICIA PILKI PRZEZ GRACZA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC Y ODBICIA PILKI OD SIATKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #PREDKOSC X PILKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.menu_position[2] == 2 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #PROMIEN PILKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 4 and self.menu_position[2] == 3 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #WYSOKOSC SIATKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 5 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
             #SZEROKOSC SIATKI
             elif self.menu_position[0] == 1 and self.menu_position[1] == 5 and self.menu_position[2] == 1 and self.n == 3:
                if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
+                   self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] += 1
+                   self.dzwiek_zmiana.play()
 #ZAPIS WARTOSCI            
         if klawiatura[pygame.K_RETURN]:
+            self.dzwiek_enter.play()
             if self.menu_position[0] == 0:
                 #WŁACZA SIE GRA
                 self.menu_time = False
-                pygame.mixer.music.stop
             elif self.menu_position[0] == 2 and self.n == 1:
                 pass
             elif self.menu_position[0] == 3 and self.n == 1:
@@ -1001,9 +1096,9 @@ class menu(object):
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 1 and self.n == 3:
                 self.zapis_do_pliku(8, 0.1)
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 2 and self.n == 3:
-                self.zapis_do_pliku(8, 0.5)
+                self.zapis_do_pliku(8, 0.15)
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 3 and self.n == 3:
-                self.zapis_do_pliku(8, 1.0)
+                self.zapis_do_pliku(8, 0.25)
             
             #MAX DOZWOLONYCH ODBIC
             elif self.menu_position[0] == 1 and self.menu_position[1] == 3 and self.menu_position[2] == 0 and self.menu_position[3] == 0 and self.n == 3:
@@ -1096,6 +1191,7 @@ class menu(object):
             if self.n == 0:
                 pass
             else:
+                self.dzwiek_wroc.play()
                 self.menu_position[self.n] = 0
                 self.n -= 1
 

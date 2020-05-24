@@ -22,17 +22,22 @@ from ball.ball import pilka
 #GREEN = settings().GREEN
 #GRAY = settings().GRAY
 #RED = settings().RED
+pygame.mixer.pre_init(22050, -16, 2, 1024)
+pygame.mixer.quit()
+pygame.mixer.init(22050, -16, 2, 1024)
+pygame.init()
+#pygame.mixer.pre_init(44100, -16, 2, 512)
+#pygame.mixer.init()
+#pygame.init()
 
 class Game(object):
 
     def __init__(self, punkty_graczy):
-        pygame.mixer.pre_init(22050, -16, 2, 1024)
-        pygame.init()
-        pygame.mixer.quit()
-        pygame.mixer.init(22050, -16, 2, 1024)
-        pygame.mixer.music.load('music/background_music.mp3')
-        pygame.mixer.music.set_volume(0.1)
-        pygame.mixer.music.play(-1)
+        self.dzwiek_wroc = pygame.mixer.Sound('music/menu_quit.wav')
+        #pygame.mixer.pre_init(22050, -16, 2, 1024)
+        #pygame.init()
+        #pygame.mixer.quit()
+        #pygame.mixer.init(22050, -16, 2, 1024)
         self.uderzenie1 = pygame.mixer.Sound('music/bounce_1.wav')
         self.uderzenie2 = pygame.mixer.Sound('music/bounce_2.wav')
         self.uderzenie3 = pygame.mixer.Sound('music/bounce_3.wav')
@@ -120,9 +125,13 @@ class Game(object):
         while self.foxygame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.dzwiek_wroc.play()
+                    pygame.time.wait(500)
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.dzwiek_wroc.play()
+                    pygame.time.wait(500)
                     pygame.quit()
                     sys.exit()
 
@@ -157,22 +166,22 @@ class Game(object):
 
     def rysuj(self):
         #PODŁOGA:
-        pygame.draw.rect(self.screen, self.RED, self.podloga)
-        #LEWA RAMKA:
-        pygame.draw.rect(self.screen, self.RED, self.lewa_ramka)
-        #PRAWA RAMKA:
-        pygame.draw.rect(self.screen, self.RED, self.prawa_ramka)
-        #SUFIT:
-        pygame.draw.rect(self.screen, self.RED, self.sufit)
-        #ŚRODEK:
-        pygame.draw.rect(self.screen, self.RED, self.srodek)
+        #pygame.draw.rect(self.screen, self.RED, self.podloga)
+        ##LEWA RAMKA:
+        #pygame.draw.rect(self.screen, self.RED, self.lewa_ramka)
+        ##PRAWA RAMKA:
+        #pygame.draw.rect(self.screen, self.RED, self.prawa_ramka)
+        ##SUFIT:
+        #pygame.draw.rect(self.screen, self.RED, self.sufit)
+        ##ŚRODEK:
+        #pygame.draw.rect(self.screen, self.RED, self.srodek)
         #SIATKA:
         pygame.draw.rect(self.screen, self.GRAY, self.siatka)
         #HITBOXY SIATKI:
-        pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_lewy)
-        pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_prawy)
-        pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_gorny)
-        pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_dolny)
+        #pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_lewy)
+        #pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_prawy)
+        #pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_gorny)
+        #pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_dolny)
 
         #GRACZ 1
         self.gracz1.gr1 = pygame.Rect(self.gracz1.x, self.gracz1.y, self.szerokosc_graczy, self.wysokosc_graczy)
@@ -181,10 +190,10 @@ class Game(object):
         self.gracz1.hitbox_prawy = pygame.Rect(self.gracz1.x+self.szerokosc_graczy, self.gracz1.y, 1, self.wysokosc_graczy)
         self.gracz1.hitbox_gorny = pygame.Rect(self.gracz1.x, self.gracz1.y, self.szerokosc_graczy, 1)
         self.gracz1.hitbox_dolny = pygame.Rect(self.gracz1.x, self.gracz1.y+self.wysokosc_graczy, self.szerokosc_graczy, 1)
-        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_lewy)
-        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_prawy)
-        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_gorny)
-        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_dolny)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_lewy)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_prawy)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_gorny)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_dolny)
 
         #GRACZ 2
         self.gracz2.gr2 = pygame.Rect(self.gracz2.x, self.gracz2.y, self.szerokosc_graczy, self.wysokosc_graczy)
@@ -193,10 +202,10 @@ class Game(object):
         self.gracz2.hitbox_prawy = pygame.Rect(self.gracz2.x+self.szerokosc_graczy, self.gracz2.y, 1, self.wysokosc_graczy)
         self.gracz2.hitbox_gorny = pygame.Rect(self.gracz2.x, self.gracz2.y, self.szerokosc_graczy, 1)
         self.gracz2.hitbox_dolny = pygame.Rect(self.gracz2.x, self.gracz2.y+self.wysokosc_graczy, self.szerokosc_graczy, 1)
-        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_lewy)
-        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_prawy)
-        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_gorny)
-        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_dolny)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_lewy)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_prawy)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_gorny)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_dolny)
 
         #PIŁKA
         #self.pilka.pilka = pygame.Rect(self.pilka.x_pilki, self.pilka.y_pilki, 2*self.pilka.promien_pilki, 2*self.pilka.promien_pilki)
@@ -278,7 +287,7 @@ class Game(object):
         #JESLI GRACZ 1 UDERZA PILKE
         if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) and self.y_pilki<=self.gracz1.y:
             self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
-            #self.y_pilki = self.gracz1.y - self.promien_pilki*2
+            self.y_pilki = self.gracz1.y - self.promien_pilki*2
             self.odbicia += 1
             self.wybierz_dzwiek()
         elif pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz1.y:
@@ -288,7 +297,7 @@ class Game(object):
         #JESLI GRACZ 2 UDERZA PILKE
         if pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) and self.y_pilki<=self.gracz2.y:
             self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
-            #self.y_pilki = self.gracz2.y - self.promien_pilki*2
+            self.y_pilki = self.gracz2.y - self.promien_pilki*2
             self.odbicia2 += 1
             self.wybierz_dzwiek()
         elif pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz2.y:
@@ -315,7 +324,6 @@ class Game(object):
         return [self.punkty_gracz1, self.punkty_gracz2]
 
 def foxyball_game():
-    #play_music()
     gameplay = True
     punkty_gracz1 = 0
     punkty_gracz2 = 0
@@ -323,18 +331,21 @@ def foxyball_game():
     while gameplay:
         if punkty_graczy == [0, 0]:
             menu()
+            pygame.mixer.music.load('music/background_music.mp3')
+            pygame.mixer.music.set_volume(0.1)
+            pygame.mixer.music.play(-1)
         max_liczba_punktow = settings().max_liczba_punktow
         punkty_graczy = Game(punkty_graczy).zwroc_wynik()
         print("Obecny wynik: {}/{}".format(punkty_graczy[0], punkty_graczy[1]))
         if punkty_graczy[0] >= max_liczba_punktow:
             print("Gracz 1 WYGRAŁ!")
             punkty_graczy = [0, 0]
-            pygame.mixer.music.fadeout(3500)
-            pygame.time.wait(4000)
+            pygame.mixer.music.fadeout(2500)
+            pygame.time.wait(3000)
         elif punkty_graczy[1] >= max_liczba_punktow:
             print("Gracz 2 WYGRAŁ!")
             punkty_graczy = [0, 0]
-            pygame.mixer.music.fadeout(3500)
-            pygame.time.wait(4000)
+            pygame.mixer.music.fadeout(2500)
+            pygame.time.wait(3000)
 
 foxyball_game()

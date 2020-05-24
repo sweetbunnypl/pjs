@@ -1343,8 +1343,7 @@ class menu(object):
             self.text7 = font_1.render("OBECNIE: %d" % (self.odczyt_z_pliku(num)), True, self.BLACK)
             self.txt7 = 1
         else:
-            self.txt7 = 0
-        
+            self.txt7 = 0      
 #ODCZYT Z PLIKU OBECNEJ WARTOSCI:    
     def odczyt_z_pliku(self, number):
         current_path = os.getcwd()

@@ -12,6 +12,7 @@ class static(object):
         self.GREEN = settings().GREEN
         self.GRAY = settings().GRAY
         self.RED = settings().RED
+        self.ORANGE = settings().ORANGE
         self.szerokosc_graczy = settings().szerokosc_graczy
         self.wysokosc_graczy = settings().wysokosc_graczy
 

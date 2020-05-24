@@ -13,9 +13,14 @@ class gracz1(object):
         self.dt = settings().dt
         self.wysokosc_skoku = settings().wysokosc_skoku
         self.szybkosc_poruszania = settings().szybkosc_poruszania
+        self.szerokosc_graczy = settings().szerokosc_graczy
+        self.wysokosc_graczy = settings().wysokosc_graczy
+        self.mnoznik_obiektow = settings().mnoznik_obiektow
         #static
         self.hitbox_siatka_lewy = static().hitbox_siatka_lewy
         self.lewa_ramka = static().lewa_ramka
+        self.hitbox_siatka_prawy = static().hitbox_siatka_prawy
+        self.prawa_ramka = static().prawa_ramka
         self.podloga = static().podloga
         #INICJALIZACJA ELEMENTOW GRACZA:
         self.gr1 = pygame.Rect(0, 0, 0, 0)
@@ -24,7 +29,7 @@ class gracz1(object):
         self.hitbox_gorny = pygame.Rect(0, 0, 0, 0)
         self.hitbox_dolny = pygame.Rect(0, 0, 0, 0)
         #POCZATKOWE WARTOSCI:
-        self.x = 0.2*self.WIDTH
+        self.x = self.WIDTH/2 - (400+self.szerokosc_graczy/2)*self.mnoznik_obiektow
         self.y = 0.8*self.HEIGHT
         self.dx = 0
         self.dy = 0
@@ -33,12 +38,12 @@ class gracz1(object):
 
     def odczyt_klawiszy(self):
         klawiatura = pygame.key.get_pressed()
-        if klawiatura[pygame.K_d] and not pygame.Rect.colliderect(self.hitbox_siatka_lewy, self.gr1):
+        if klawiatura[pygame.K_d] and not pygame.Rect.colliderect(self.hitbox_siatka_lewy, self.gr1) and not pygame.Rect.colliderect(self.prawa_ramka, self.gr1):
             self.keys[3] = 1
         else:
             self.keys[3] = 0
 
-        if klawiatura[pygame.K_a] and not pygame.Rect.colliderect(self.lewa_ramka, self.gr1):
+        if klawiatura[pygame.K_a] and not pygame.Rect.colliderect(self.lewa_ramka, self.gr1) and not pygame.Rect.colliderect(self.hitbox_siatka_prawy, self.gr1):
             self.keys[2] = 1
         else:
             self.keys[2] = 0

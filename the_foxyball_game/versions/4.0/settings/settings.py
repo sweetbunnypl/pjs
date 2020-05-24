@@ -12,6 +12,7 @@ class settings(object):
         self.GREEN = (129, 187, 129)
         self.GRAY = (205, 205, 205)
         self.RED = (255, 0, 0)
+        self.ORANGE = (255,165,0)
         #ODCZYT Z PLIKU
         current_path = os.getcwd()
         path = current_path+'/settings/parameters.txt'

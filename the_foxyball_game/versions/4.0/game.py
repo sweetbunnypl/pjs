@@ -156,7 +156,7 @@ class Game(object):
                 textRect3.center = (self.WIDTH/2, 200*self.mnoznik_obiektow)
                 self.screen.blit(text3, textRect3)
             elif self.punkty_gracz1 >= self.max_liczba_punktow:
-                text3 = font0.render("GRACZ 2 WYGRAL!", True, self.BLACK)
+                text3 = font0.render("GRACZ 1 WYGRAL!", True, self.BLACK)
                 textRect3 = text3.get_rect()
                 textRect3.center = (self.WIDTH/2, 200*self.mnoznik_obiektow)
                 self.screen.blit(text3, textRect3)

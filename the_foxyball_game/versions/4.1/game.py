@@ -198,7 +198,8 @@ class Game(object):
         #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_dolny)
 
         #GRACZ 2
-        self.gracz2.rysuj(self.screen, self.BLACK)
+        self.gracz2.rysuj(self.screen.blit, self.BLACK)
+        #self.gracz2.rysuj(self.screen, self.BLACK)
         #self.gracz2.gr2 = pygame.Rect(self.gracz2.x, self.gracz2.y, self.szerokosc_graczy, self.wysokosc_graczy)
         #pygame.draw.rect(self.screen, self.WHITE, self.gracz2.gr2)
         self.gracz2.hitbox_lewy = pygame.Rect(self.gracz2.x, self.gracz2.y, 1, self.wysokosc_graczy)

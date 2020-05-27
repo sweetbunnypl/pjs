@@ -26,6 +26,9 @@ class static(object):
         self.hitbox_siatka_prawy = pygame.Rect(self.x_siatki+self.szerokosc_siatki, self.y_siatki, 1, self.wysokosc_siatki)
         self.hitbox_siatka_gorny = pygame.Rect(self.x_siatki, self.y_siatki, self.szerokosc_siatki, 1)
         self.hitbox_siatka_dolny = pygame.Rect(self.x_siatki, self.y_siatki+self.wysokosc_siatki, self.szerokosc_siatki, 1)
+        
+        self.siatka_picture = pygame.image.load('textures/wall.jpg')
+        self.siatka_picture = pygame.transform.scale(self.siatka_picture, (self.szerokosc_siatki, self.wysokosc_siatki))
 
         #PODŁOGA
         self.podloga = pygame.Rect(0, 0.8*self.HEIGHT+self.wysokosc_graczy, self.WIDTH, 1)
@@ -41,3 +44,7 @@ class static(object):
         
         #ŚRODEK
         self.srodek = pygame.Rect(self.x_siatki+(self.szerokosc_siatki/2), 0, 1, self.HEIGHT)
+    
+    def rysuj(self, surface, color):
+        self.siatka = pygame.Rect(self.x_siatki, self.y_siatki, self.szerokosc_siatki, self.wysokosc_siatki)
+        surface(self.siatka_picture, self.siatka)

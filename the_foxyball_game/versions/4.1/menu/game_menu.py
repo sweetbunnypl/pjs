@@ -292,25 +292,32 @@ class menu(object):
 #MENU ---> USTAWIENIA ---> ROZMIAR I PREDKOSC GRACZY
         #SZEROKOSC I WYSOKOSC GRACZY
         if self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 0 and self.n == 3:
-            text = font1.render("-  100x50  -", True, self.BLACK)
+            text = font1.render("-  200x100  -", True, self.BLACK)
             txt1 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] != 0 and self.n == 3:
-            text = font.render("100x50", True, self.BLACK)
+            text = font.render("200x100", True, self.BLACK)
             txt1 = 1
         
         if self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 1 and self.n == 3:
-            text2 = font1.render("-  150x75  -", True, self.BLACK)
+            text2 = font1.render("-  100x50  -", True, self.BLACK)
             txt2 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] != 1 and self.n == 3:
-            text2 = font.render("150x75", True, self.BLACK)
+            text2 = font.render("100x50", True, self.BLACK)
             txt2 = 1
         
         if self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 2 and self.n == 3:
-            text3 = font1.render("-  200x100  -", True, self.BLACK)
+            text3 = font1.render("-  170x85  -", True, self.BLACK)
             txt3 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] != 2 and self.n == 3:
-            text3 = font.render("200x100", True, self.BLACK)
+            text3 = font.render("170x85", True, self.BLACK)
             txt3 = 1
+        
+        if self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 3 and self.n == 3:
+            text4 = font1.render("-  230x115  -", True, self.BLACK)
+            txt4 = 1
+        elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] != 3 and self.n == 3:
+            text4 = font.render("230x115", True, self.BLACK)
+            txt4 = 1
 #------------------------------------------------------------------------------------------------------------------------------------#
         #PREDKOSC SKOKU GRACZA
         if self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 1 and self.menu_position[3] == 0 and self.n == 3:
@@ -841,7 +848,7 @@ class menu(object):
             #SZEROKOSC I WYSOKOSC GRACZY
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.n == 3:
                if self.menu_position[self.n] == 0:
-                   self.menu_position[self.n] = 2
+                   self.menu_position[self.n] = 3
                    self.dzwiek_zmiana.play()
                else:
                    self.menu_position[self.n] -= 1
@@ -1010,7 +1017,7 @@ class menu(object):
                    self.dzwiek_zmiana.play()
             #SZEROKOSC I WYSOKOSC GRACZY
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.n == 3:
-               if self.menu_position[self.n] == 2:
+               if self.menu_position[self.n] == 3:
                    self.menu_position[self.n] = 0
                    self.dzwiek_zmiana.play()
                else:
@@ -1147,15 +1154,29 @@ class menu(object):
                 sys.exit()
                      
             #SZEROKOSC I WYSOKOSC GRACZY
+            #elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 0 and self.n == 3:
+            #    self.zapis_do_pliku(1, 100)
+            #    self.zapis_do_pliku(2, 50)
+            #elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 1 and self.n == 3:
+            #    self.zapis_do_pliku(1, 150)
+            #    self.zapis_do_pliku(2, 75)
+            #elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 2 and self.n == 3:
+            #    self.zapis_do_pliku(1, 200)
+            #    self.zapis_do_pliku(2, 100)
+            
+            #SZEROKOSC I WYSOKOSC GRACZY
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 0 and self.n == 3:
-                self.zapis_do_pliku(1, 100)
-                self.zapis_do_pliku(2, 50)
-            elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 1 and self.n == 3:
-                self.zapis_do_pliku(1, 150)
-                self.zapis_do_pliku(2, 75)
-            elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 2 and self.n == 3:
                 self.zapis_do_pliku(1, 200)
                 self.zapis_do_pliku(2, 100)
+            elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 1 and self.n == 3:
+                self.zapis_do_pliku(1, 100)
+                self.zapis_do_pliku(2, 50)
+            elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 2 and self.n == 3:
+                self.zapis_do_pliku(1, 170)
+                self.zapis_do_pliku(2, 85)
+            elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 0 and self.menu_position[3] == 3 and self.n == 3:
+                self.zapis_do_pliku(1, 230)
+                self.zapis_do_pliku(2, 115)
             
             #PREDKOSC SKOKU GRACZA
             elif self.menu_position[0] == 1 and self.menu_position[1] == 0 and self.menu_position[2] == 1 and self.menu_position[3] == 0 and self.n == 3:

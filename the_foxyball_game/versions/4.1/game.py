@@ -14,7 +14,6 @@ from static_objects.static import static
 from ball.ball import pilka
 
 #max_liczba_punktow = settings().max_liczba_punktow
-#
 #WIDTH = settings().WIDTH
 #HEIGHT = settings().HEIGHT
 #BLACK = settings().BLACK
@@ -103,6 +102,7 @@ class Game(object):
         self.x_siatki = static().x_siatki
         self.y_siatki = static().y_siatki
         #PIŁKA:
+        self.pilka_picture = pygame.image.load('textures/ball.jpg')
         #self.pilka = pilka()
         #LICZBA ODBIĆ
         self.odbicia = 0
@@ -168,15 +168,16 @@ class Game(object):
         #PODŁOGA:
         pygame.draw.rect(self.screen, self.RED, self.podloga)
         ##LEWA RAMKA:
-        pygame.draw.rect(self.screen, self.RED, self.lewa_ramka)
+        #pygame.draw.rect(self.screen, self.RED, self.lewa_ramka)
         ##PRAWA RAMKA:
-        pygame.draw.rect(self.screen, self.RED, self.prawa_ramka)
+        #pygame.draw.rect(self.screen, self.RED, self.prawa_ramka)
         ##SUFIT:
-        pygame.draw.rect(self.screen, self.RED, self.sufit)
+        #pygame.draw.rect(self.screen, self.RED, self.sufit)
         ##ŚRODEK:
         #pygame.draw.rect(self.screen, self.RED, self.srodek)
         #SIATKA:
-        pygame.draw.rect(self.screen, self.GRAY, self.siatka)
+        static().rysuj(self.screen.blit, self.BLACK)
+        #pygame.draw.rect(self.screen, self.GRAY, self.siatka)
         #HITBOXY SIATKI:
         #pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_lewy)
         #pygame.draw.rect(self.screen, self.RED, self.hitbox_siatka_prawy)
@@ -188,34 +189,40 @@ class Game(object):
         #self.gracz1.rysuj(self.screen, self.BLACK)
         #self.gracz1.gr1 = pygame.Rect(self.gracz1.x, self.gracz1.y, self.szerokosc_graczy, self.wysokosc_graczy)
         #pygame.draw.rect(self.screen, self.BLACK, self.gracz1.gr1)
-        self.gracz1.hitbox_lewy = pygame.Rect(self.gracz1.x, self.gracz1.y, 1, self.wysokosc_graczy)
-        self.gracz1.hitbox_prawy = pygame.Rect(self.gracz1.x+self.szerokosc_graczy, self.gracz1.y, 1, self.wysokosc_graczy)
-        self.gracz1.hitbox_gorny = pygame.Rect(self.gracz1.x, self.gracz1.y, self.szerokosc_graczy, 1)
-        self.gracz1.hitbox_dolny = pygame.Rect(self.gracz1.x, self.gracz1.y+self.wysokosc_graczy, self.szerokosc_graczy, 1)
-        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_lewy)
-        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_prawy)
-        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_gorny)
-        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_dolny)
+        self.gracz1.hitbox_lewy = pygame.Rect(self.gracz1.x, self.gracz1.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), 1, self.wysokosc_graczy-(self.szerokosc_graczy/200)*(40*self.mnoznik_obiektow))
+        self.gracz1.hitbox_prawy = pygame.Rect(self.gracz1.x+self.szerokosc_graczy, self.gracz1.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), 1, self.wysokosc_graczy-(self.szerokosc_graczy/200)*(40*self.mnoznik_obiektow))
+        self.gracz1.hitbox_gorny = pygame.Rect(self.gracz1.x, self.gracz1.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), self.szerokosc_graczy, 1)
+        self.gracz1.hitbox_dolny = pygame.Rect(self.gracz1.x, self.gracz1.y+self.wysokosc_graczy-(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), self.szerokosc_graczy, 1)
+        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_lewy)
+        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_prawy)
+        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_gorny)
+        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_dolny)
 
         #GRACZ 2
         self.gracz2.rysuj(self.screen.blit, self.BLACK)
         #self.gracz2.rysuj(self.screen, self.BLACK)
         #self.gracz2.gr2 = pygame.Rect(self.gracz2.x, self.gracz2.y, self.szerokosc_graczy, self.wysokosc_graczy)
         #pygame.draw.rect(self.screen, self.WHITE, self.gracz2.gr2)
-        self.gracz2.hitbox_lewy = pygame.Rect(self.gracz2.x, self.gracz2.y, 1, self.wysokosc_graczy)
-        self.gracz2.hitbox_prawy = pygame.Rect(self.gracz2.x+self.szerokosc_graczy, self.gracz2.y, 1, self.wysokosc_graczy)
-        self.gracz2.hitbox_gorny = pygame.Rect(self.gracz2.x, self.gracz2.y, self.szerokosc_graczy, 1)
-        self.gracz2.hitbox_dolny = pygame.Rect(self.gracz2.x, self.gracz2.y+self.wysokosc_graczy, self.szerokosc_graczy, 1)
-        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_lewy)
-        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_prawy)
-        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_gorny)
-        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_dolny)
+        #self.gracz2.hitbox_lewy = pygame.Rect(self.gracz2.x, self.gracz2.y, 1, self.wysokosc_graczy)
+        #self.gracz2.hitbox_prawy = pygame.Rect(self.gracz2.x+self.szerokosc_graczy, self.gracz2.y, 1, self.wysokosc_graczy)
+        #self.gracz2.hitbox_gorny = pygame.Rect(self.gracz2.x, self.gracz2.y, self.szerokosc_graczy, 1)
+        #self.gracz2.hitbox_dolny = pygame.Rect(self.gracz2.x, self.gracz2.y+self.wysokosc_graczy, self.szerokosc_graczy, 1)
+        self.gracz2.hitbox_lewy = pygame.Rect(self.gracz2.x, self.gracz2.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), 1, self.wysokosc_graczy-(self.szerokosc_graczy/200)*(40*self.mnoznik_obiektow))
+        self.gracz2.hitbox_prawy = pygame.Rect(self.gracz2.x+self.szerokosc_graczy, self.gracz2.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), 1, self.wysokosc_graczy-(self.szerokosc_graczy/200)*(40*self.mnoznik_obiektow))
+        self.gracz2.hitbox_gorny = pygame.Rect(self.gracz2.x, self.gracz2.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), self.szerokosc_graczy, 1)
+        self.gracz2.hitbox_dolny = pygame.Rect(self.gracz2.x, self.gracz2.y+self.wysokosc_graczy-(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), self.szerokosc_graczy, 1)
+        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_lewy)
+        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_prawy)
+        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_gorny)
+        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_dolny)
 
         #PIŁKA
         #self.pilka.pilka = pygame.Rect(self.pilka.x_pilki, self.pilka.y_pilki, 2*self.pilka.promien_pilki, 2*self.pilka.promien_pilki)
         #pygame.draw.rect(self.screen, self.RED, self.pilka.pilka)
         self.pilka = pygame.Rect(self.x_pilki, self.y_pilki, 2*self.promien_pilki, 2*self.promien_pilki)
-        pygame.draw.rect(self.screen, self.RED, self.pilka)
+        self.pilka_picture = pygame.transform.scale(self.pilka_picture, (2*self.promien_pilki, 2*self.promien_pilki))
+        self.screen.blit(self.pilka_picture, self.pilka)
+        #pygame.draw.rect(self.screen, self.RED, self.pilka)
         #pygame.draw.circle(self.screen, GREEN, self.pozycja_pilki, self.promien_pilki)
 
     def ruch_pilki(self):
@@ -273,25 +280,25 @@ class Game(object):
             self.dx_pilki *= -1
             self.x_pilki = self.gracz2.x+self.szerokosc_graczy
         #JESLI GRACZ 1 UDERZA PILKE
-        if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) and self.y_pilki<=self.gracz1.y:
+        if pygame.Rect.colliderect(self.gracz1.hitbox_gorny, self.pilka) and self.y_pilki+2*self.promien_pilki<=self.gracz1.y+self.wysokosc_graczy:
             self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
             self.y_pilki = self.gracz1.y - self.promien_pilki*2
             self.odbicia += 1
             self.wybierz_dzwiek()
-        elif pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz1.y:
-            self.dy_pilki = -self.wysokosc_odbicia_pilki_przez_gracza
-            self.y_pilki = self.gracz1.y + self.wysokosc_graczy
-            self.wybierz_dzwiek()
+        #elif pygame.Rect.colliderect(self.gracz1.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz1.y:
+        #    self.dy_pilki = -self.wysokosc_odbicia_pilki_przez_gracza
+        #    self.y_pilki = self.gracz1.y + self.wysokosc_graczy
+        #    self.wybierz_dzwiek()
         #JESLI GRACZ 2 UDERZA PILKE
-        if pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) and self.y_pilki<=self.gracz2.y:
+        if pygame.Rect.colliderect(self.gracz2.hitbox_gorny, self.pilka) and self.y_pilki+2*self.promien_pilki<=self.gracz2.y+self.wysokosc_graczy:
             self.dy_pilki = self.wysokosc_odbicia_pilki_przez_gracza
             self.y_pilki = self.gracz2.y - self.promien_pilki*2
             self.odbicia2 += 1
             self.wybierz_dzwiek()
-        elif pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz2.y:
-            self.dy_pilki = -self.wysokosc_odbicia_pilki_przez_gracza
-            self.y_pilki = self.gracz2.y + self.wysokosc_graczy
-            self.wybierz_dzwiek()
+        #elif pygame.Rect.colliderect(self.gracz2.hitbox_dolny, self.pilka) and self.y_pilki>self.gracz2.y:
+        #    self.dy_pilki = -self.wysokosc_odbicia_pilki_przez_gracza
+        #    self.y_pilki = self.gracz2.y + self.wysokosc_graczy
+        #    self.wybierz_dzwiek()
         #JESLI ODBIJE SIE OD PODLOGI
         if pygame.Rect.colliderect(self.podloga, self.pilka) and self.x_pilki+self.promien_pilki<self.x_siatki+(self.szerokosc_siatki/2):
             self.dy_pilki = -60
@@ -308,7 +315,12 @@ class Game(object):
             self.dy_pilki *= -1
             self.wybierz_dzwiek()
         #JESLI DOTKNIE LEWEJ LUB PRAWEJ STRONY PLANSZY
-        if pygame.Rect.colliderect(self.lewa_ramka, self.pilka) or pygame.Rect.colliderect(self.prawa_ramka, self.pilka):
+        if pygame.Rect.colliderect(self.lewa_ramka, self.pilka):
+            self.x_pilki = 1# or pygame.Rect.colliderect(self.prawa_ramka, self.pilka):
+            self.dx_pilki *= -1
+            self.wybierz_dzwiek()
+        elif pygame.Rect.colliderect(self.prawa_ramka, self.pilka):
+            self.x_pilki = self.WIDTH - 1 - self.promien_pilki*2
             self.dx_pilki *= -1
             self.wybierz_dzwiek()
 

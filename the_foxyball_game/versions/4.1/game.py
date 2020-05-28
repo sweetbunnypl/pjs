@@ -1,5 +1,6 @@
 #IMPORT STANDARDOWYCH BIBLIOTEK:
 import pygame, sys
+from datetime import datetime
 from random import randint
 from random import randrange
 from os import system
@@ -12,6 +13,8 @@ from menu.game_menu import menu
 from settings.settings import settings
 from static_objects.static import static
 from ball.ball import pilka
+
+now = datetime.now()
 
 #max_liczba_punktow = settings().max_liczba_punktow
 #WIDTH = settings().WIDTH
@@ -40,9 +43,9 @@ class Game(object):
         self.uderzenie1 = pygame.mixer.Sound('music/bounce_1.wav')
         self.uderzenie2 = pygame.mixer.Sound('music/bounce_2.wav')
         self.uderzenie3 = pygame.mixer.Sound('music/bounce_3.wav')
-        font = pygame.font.Font('fonts/ostrich-regular.ttf', 32)
-        font0 = pygame.font.Font('fonts/ostrich-heavy.otf', 78)
-        font1 = pygame.font.Font('fonts/ostrich-heavy.otf', 60)
+        self.font = pygame.font.Font('fonts/ostrich-regular.ttf', 32)
+        self.font0 = pygame.font.Font('fonts/ostrich-heavy.otf', 78)
+        self.font1 = pygame.font.Font('fonts/ostrich-heavy.otf', 60)
         #USTAWIENIA
         self.g = settings().g
         self.dt = settings().dt
@@ -66,7 +69,13 @@ class Game(object):
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         #self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         pygame.display.set_caption('The Foxyball Game')
+
         self.background = pygame.transform.scale(pygame.image.load('textures/background.png'), (self.WIDTH, self.HEIGHT))
+        day_time = int(now.strftime("%H"))
+        if day_time >= 4 and day_time < 16:
+            self.background = pygame.transform.scale(pygame.image.load('textures/background.png'), (self.WIDTH, self.HEIGHT))
+        elif day_time >=16 or day_time < 4:
+            self.background = pygame.transform.scale(pygame.image.load('textures/background2.png'), (self.WIDTH, self.HEIGHT))
 
         #WIELKOSC GRACZY
         self.szerokosc_graczy = settings().szerokosc_graczy
@@ -102,7 +111,7 @@ class Game(object):
         self.x_siatki = static().x_siatki
         self.y_siatki = static().y_siatki
         #PIŁKA:
-        self.pilka_picture = pygame.image.load('textures/ball.jpg')
+        self.pilka_picture = pygame.image.load('textures/ball.png')
         #self.pilka = pilka()
         #LICZBA ODBIĆ
         self.odbicia = 0
@@ -122,6 +131,11 @@ class Game(object):
         self.clock = pygame.time.Clock()
         self.czas = 0.0
         self.foxygame = settings().foxygame
+
+        self.odliczanie_condition = False
+        self.odliczone = False
+        self.ilosc_odliczen = 3
+
         while self.foxygame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -135,38 +149,52 @@ class Game(object):
                     pygame.quit()
                     sys.exit()
 
-            #RUCH GRACZY:
-            self.gracz1.odczyt_klawiszy()
-            self.gracz2.odczyt_klawiszy()
-            self.gracz1.ruch()
-            self.gracz2.ruch()
-            #self.pilka.ruch()
-            self.ruch_pilki()
+            if not self.odliczanie_condition and self.odliczone:
+                #RUCH GRACZY:
+                self.gracz1.odczyt_klawiszy()
+                self.gracz2.odczyt_klawiszy()
+                self.gracz1.ruch()
+                self.gracz2.ruch()
+                #self.pilka.ruch()
+                self.ruch_pilki()
             #WYŚWIETLANIE OBIEKTÓW:
             self.screen.blit(self.background, (0, 0))
             self.rysuj()
             #WYŚWIETLANIE PUNKTÓW:
-            text1 = font1.render("%d : %d" % (self.punkty_gracz1, self.punkty_gracz2), True, self.BLACK)#, self.GRAY)
+            if self.odliczanie_condition and not self.odliczone:
+                self.odliczanie(self.ilosc_odliczen)
+                self.ilosc_odliczen -= 1
+                if self.ilosc_odliczen < 0:
+                    self.odliczone = True
+                    self.ilosc_odliczen = 3
+            
+            text1 = self.font1.render("%d : %d" % (self.punkty_gracz1, self.punkty_gracz2), True, self.BLACK)#, self.GRAY)
             textRect1 = text1.get_rect()
             textRect1.center = (self.WIDTH/2, 75*self.mnoznik_obiektow)
             self.screen.blit(text1, textRect1)
             if self.punkty_gracz2 >= self.max_liczba_punktow:
-                text3 = font0.render("GRACZ 2 WYGRAL!", True, self.BLACK)
+                text3 = self.font0.render("GRACZ 2 WYGRAL!", True, self.BLACK)
                 textRect3 = text3.get_rect()
                 textRect3.center = (self.WIDTH/2, 200*self.mnoznik_obiektow)
                 self.screen.blit(text3, textRect3)
             elif self.punkty_gracz1 >= self.max_liczba_punktow:
-                text3 = font0.render("GRACZ 1 WYGRAL!", True, self.BLACK)
+                text3 = self.font0.render("GRACZ 1 WYGRAL!", True, self.BLACK)
                 textRect3 = text3.get_rect()
                 textRect3.center = (self.WIDTH/2, 200*self.mnoznik_obiektow)
                 self.screen.blit(text3, textRect3)
             self.clock.tick(60)
             pygame.display.flip()
+            if self.odliczanie_condition and not self.odliczone:
+                pygame.time.wait(1000)
+            if self.odliczanie_condition == False and not self.odliczone:
+                self.odliczanie_condition = True
+            else:
+                self.odliczanie_condition = False
         self.zwroc_wynik()
 
     def rysuj(self):
         #PODŁOGA:
-        pygame.draw.rect(self.screen, self.RED, self.podloga)
+        #pygame.draw.rect(self.screen, self.RED, self.podloga)
         ##LEWA RAMKA:
         #pygame.draw.rect(self.screen, self.RED, self.lewa_ramka)
         ##PRAWA RAMKA:
@@ -193,10 +221,10 @@ class Game(object):
         self.gracz1.hitbox_prawy = pygame.Rect(self.gracz1.x+self.szerokosc_graczy, self.gracz1.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), 1, self.wysokosc_graczy-(self.szerokosc_graczy/200)*(40*self.mnoznik_obiektow))
         self.gracz1.hitbox_gorny = pygame.Rect(self.gracz1.x, self.gracz1.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), self.szerokosc_graczy, 1)
         self.gracz1.hitbox_dolny = pygame.Rect(self.gracz1.x, self.gracz1.y+self.wysokosc_graczy-(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), self.szerokosc_graczy, 1)
-        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_lewy)
-        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_prawy)
-        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_gorny)
-        pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_dolny)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_lewy)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_prawy)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_gorny)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz1.hitbox_dolny)
 
         #GRACZ 2
         self.gracz2.rysuj(self.screen.blit, self.BLACK)
@@ -211,10 +239,10 @@ class Game(object):
         self.gracz2.hitbox_prawy = pygame.Rect(self.gracz2.x+self.szerokosc_graczy, self.gracz2.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), 1, self.wysokosc_graczy-(self.szerokosc_graczy/200)*(40*self.mnoznik_obiektow))
         self.gracz2.hitbox_gorny = pygame.Rect(self.gracz2.x, self.gracz2.y+(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), self.szerokosc_graczy, 1)
         self.gracz2.hitbox_dolny = pygame.Rect(self.gracz2.x, self.gracz2.y+self.wysokosc_graczy-(self.szerokosc_graczy/200)*(20*self.mnoznik_obiektow), self.szerokosc_graczy, 1)
-        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_lewy)
-        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_prawy)
-        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_gorny)
-        pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_dolny)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_lewy)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_prawy)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_gorny)
+        #pygame.draw.rect(self.screen, self.RED, self.gracz2.hitbox_dolny)
 
         #PIŁKA
         #self.pilka.pilka = pygame.Rect(self.pilka.x_pilki, self.pilka.y_pilki, 2*self.pilka.promien_pilki, 2*self.pilka.promien_pilki)
@@ -338,6 +366,12 @@ class Game(object):
             self.uderzenie2.play()
         else:
             self.uderzenie3.play()
+    
+    def odliczanie(self, counter):
+        text3 = self.font0.render("%d" % (counter), True, self.BLACK)
+        textRect3 = text3.get_rect()
+        textRect3.center = (self.WIDTH/2, 250*self.mnoznik_obiektow)
+        self.screen.blit(text3, textRect3)
     
     def zwroc_wynik(self):
         return [self.punkty_gracz1, self.punkty_gracz2]

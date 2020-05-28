@@ -42,8 +42,8 @@ class settings(object):
         self.szybkosc_pilki_x = float(self.mnoznik_obiektow*int(data[18]))
         self.promien_pilki = int(self.mnoznik_obiektow*int(data[19]))
         #SIATKA
-        self.wysokosc_siatki = int(self.mnoznik_obiektow*int(data[21]))
-        self.szerokosc_siatki = int(self.mnoznik_obiektow*int(data[22]))
+        self.wysokosc_siatki = int(data[21])
+        self.szerokosc_siatki = int(data[22])
         plik.close()
         #CZCIONKA
         self.font_72 = pygame.font.Font('fonts/ostrich-regular.ttf', int(self.mnoznik_obiektow*78))

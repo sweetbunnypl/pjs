@@ -1,5 +1,6 @@
 import pygame, sys, os
 from settings.settings import settings
+from datetime import datetime
 
 BLACK = settings().BLACK
 WHITE = settings().WHITE
@@ -24,6 +25,7 @@ font_1 = settings().font_42_heavy
 font1 = settings().font_56
 font2 = settings().font_28
 
+now = datetime.now()
 
 class menu(object):
 
@@ -46,6 +48,11 @@ class menu(object):
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption('The Foxyball Game')
         self.background = pygame.transform.scale(pygame.image.load('textures/background.png'), (self.WIDTH, self.HEIGHT))
+        day_time = int(now.strftime("%H"))
+        if day_time >= 4 and day_time < 16:
+            self.background = pygame.transform.scale(pygame.image.load('textures/background.png'), (self.WIDTH, self.HEIGHT))
+        elif day_time >=16 or day_time < 4:
+            self.background = pygame.transform.scale(pygame.image.load('textures/background2.png'), (self.WIDTH, self.HEIGHT))
 
         self.txt7 = 0
         #PĘTLA
@@ -373,17 +380,17 @@ class menu(object):
             txt1 = 1
         
         if self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.menu_position[3] == 1 and self.n == 3:
-            text2 = font1.render("-  12.0  -", True, self.BLACK)
+            text2 = font1.render("-  13.81  -", True, self.BLACK)
             txt2 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.menu_position[3] != 1 and self.n == 3:
-            text2 = font.render("12.0", True, self.BLACK)
+            text2 = font.render("13.81", True, self.BLACK)
             txt2 = 1
         
         if self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.menu_position[3] == 2 and self.n == 3:
-            text3 = font1.render("-  8.0  -", True, self.BLACK)
+            text3 = font1.render("-  5.81  -", True, self.BLACK)
             txt3 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.menu_position[3] != 2 and self.n == 3:
-            text3 = font.render("8.0", True, self.BLACK)
+            text3 = font.render("5.81", True, self.BLACK)
             txt3 = 1
 #------------------------------------------------------------------------------------------------------------------------------------#
         #SZYBKOSC CZASU
@@ -402,17 +409,17 @@ class menu(object):
             txt2 = 1
         
         if self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 2 and self.n == 3:
-            text3 = font1.render("-  0.15  -", True, self.BLACK)
+            text3 = font1.render("-  0.25  -", True, self.BLACK)
             txt3 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] != 2 and self.n == 3:
-            text3 = font.render("0.15", True, self.BLACK)
+            text3 = font.render("0.25", True, self.BLACK)
             txt3 = 1
         
         if self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 3 and self.n == 3:
-            text4 = font1.render("-  0.25  -", True, self.BLACK)
+            text4 = font1.render("-  0.30  -", True, self.BLACK)
             txt4 = 1
         elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] != 3 and self.n == 3:
-            text4 = font.render("0.25", True, self.BLACK)
+            text4 = font.render("0.30", True, self.BLACK)
             txt4 = 1
 #------------------------------------------------------------------------------------------------------------------------------------#
 #MENU ---> USTAWIENIA ---> PUNKTACJA
@@ -1198,19 +1205,19 @@ class menu(object):
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.menu_position[3] == 0 and self.n == 3:
                 self.zapis_do_pliku(7, 9.81)
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.menu_position[3] == 1 and self.n == 3:
-                self.zapis_do_pliku(7, 12.0)
+                self.zapis_do_pliku(7, 13.81)
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 0 and self.menu_position[3] == 2 and self.n == 3:
-                self.zapis_do_pliku(7, 8.0)
+                self.zapis_do_pliku(7, 5.81)
             
             #SZYBKOSC CZASU
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 0 and self.n == 3:
-                self.zapis_do_pliku(8, 0.2)
+                self.zapis_do_pliku(8, 0.20)
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 1 and self.n == 3:
-                self.zapis_do_pliku(8, 0.1)
+                self.zapis_do_pliku(8, 0.10)
             elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 2 and self.n == 3:
-                self.zapis_do_pliku(8, 0.15)
-            elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 3 and self.n == 3:
                 self.zapis_do_pliku(8, 0.25)
+            elif self.menu_position[0] == 1 and self.menu_position[1] == 2 and self.menu_position[2] == 1 and self.menu_position[3] == 3 and self.n == 3:
+                self.zapis_do_pliku(8, 0.30)
             
             #MAX DOZWOLONYCH ODBIC
             elif self.menu_position[0] == 1 and self.menu_position[1] == 3 and self.menu_position[2] == 0 and self.menu_position[3] == 0 and self.n == 3:

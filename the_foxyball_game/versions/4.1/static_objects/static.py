@@ -5,6 +5,7 @@ class static(object):
     #OBIEKTY STATYCZNE:
     def __init__(self):
         #PARAMETRY Z USTAWIEN:
+        self.mnoznik_obiektow = settings().mnoznik_obiektow
         self.WIDTH = settings().WIDTH
         self.HEIGHT = settings().HEIGHT
         self.BLACK = settings().BLACK
@@ -17,8 +18,8 @@ class static(object):
         self.wysokosc_graczy = settings().wysokosc_graczy
 
         #SIATKA
-        self.szerokosc_siatki = settings().szerokosc_siatki #self.WIDTH*0.05
-        self.wysokosc_siatki = settings().wysokosc_siatki #self.HEIGHT*0.45
+        self.szerokosc_siatki = int(self.mnoznik_obiektow*settings().szerokosc_siatki) #self.WIDTH*0.05
+        self.wysokosc_siatki = int(self.mnoznik_obiektow*settings().wysokosc_siatki) #self.HEIGHT*0.45
         self.x_siatki = (self.WIDTH-self.szerokosc_siatki)/2
         self.y_siatki = (self.HEIGHT*0.8-self.wysokosc_siatki+self.wysokosc_graczy)
         self.siatka = pygame.Rect(self.x_siatki, self.y_siatki, self.szerokosc_siatki, self.wysokosc_siatki)
@@ -26,9 +27,15 @@ class static(object):
         self.hitbox_siatka_prawy = pygame.Rect(self.x_siatki+self.szerokosc_siatki, self.y_siatki, 1, self.wysokosc_siatki)
         self.hitbox_siatka_gorny = pygame.Rect(self.x_siatki, self.y_siatki, self.szerokosc_siatki, 1)
         self.hitbox_siatka_dolny = pygame.Rect(self.x_siatki, self.y_siatki+self.wysokosc_siatki, self.szerokosc_siatki, 1)
-        
-        self.siatka_picture = pygame.image.load('textures/wall.jpg')
-        self.siatka_picture = pygame.transform.scale(self.siatka_picture, (self.szerokosc_siatki, self.wysokosc_siatki))
+        #self.siatka_picture = pygame.image.load('textures/wall/wall_300x60.png')
+#
+        #if self.szerokosc_siatki == 60 and self.wysokosc_siatki == 300:
+        #    self.siatka_picture = pygame.image.load('textures/wall/wall_300x60.png')
+        #elif self.szerokosc_siatki == 40 and self.wysokosc_siatki == 300:
+        #    self.siatka_picture = pygame.image.load('textures/wall/wall_300x40.png')
+        #elif self.szerokosc_siatki == 60 and self.wysokosc_siatki == 300:
+        #    self.siatka_picture = pygame.image.load('textures/wall/wall_300x60.png')
+        ##self.siatka_picture = pygame.transform.scale(self.siatka_picture, (self.szerokosc_siatki, self.wysokosc_siatki))
 
         #PODŁOGA
         self.podloga = pygame.Rect(0, 0.8*self.HEIGHT+self.wysokosc_graczy, self.WIDTH, 1)
@@ -44,6 +51,12 @@ class static(object):
         
         #ŚRODEK
         self.srodek = pygame.Rect(self.x_siatki+(self.szerokosc_siatki/2), 0, 1, self.HEIGHT)
+
+        try:
+            self.siatka_picture = pygame.image.load('textures/wall/wall_%dx%d.png' % (settings().wysokosc_siatki, settings().szerokosc_siatki))
+            self.siatka_picture = pygame.transform.scale(self.siatka_picture, (self.szerokosc_siatki, self.wysokosc_siatki))
+        except:
+            self.siatka_picture = pygame.image.load('textures/wall/wall_300x60.png')
     
     def rysuj(self, surface, color):
         self.siatka = pygame.Rect(self.x_siatki, self.y_siatki, self.szerokosc_siatki, self.wysokosc_siatki)

@@ -10,7 +10,7 @@ class gracz2(object):
         self.textura_prawo = [pygame.image.load('textures/foxy/P0.png'), pygame.image.load('textures/foxy/P1.png'), pygame.image.load('textures/foxy/P2.png'), pygame.image.load('textures/foxy/P3.png'), pygame.image.load('textures/foxy/P4.png'), pygame.image.load('textures/foxy/P5.png'), pygame.image.load('textures/foxy/P6.png'), pygame.image.load('textures/foxy/P7.png'), pygame.image.load('textures/foxy/P8.png'), pygame.image.load('textures/foxy/P9.png'), pygame.image.load('textures/foxy/P10.png'), pygame.image.load('textures/foxy/P11.png'), pygame.image.load('textures/foxy/P12.png'), pygame.image.load('textures/foxy/P13.png'), pygame.image.load('textures/foxy/P14.png'), pygame.image.load('textures/foxy/P15.png'), pygame.image.load('textures/foxy/P16.png'), pygame.image.load('textures/foxy/P17.png'), pygame.image.load('textures/foxy/P18.png'), pygame.image.load('textures/foxy/P19.png'), pygame.image.load('textures/foxy/P20.png'), pygame.image.load('textures/foxy/P21.png'), pygame.image.load('textures/foxy/P22.png'), pygame.image.load('textures/foxy/P23.png')]
         self.walkcount_left = 0
         self.walkcount_right = 0
-        self.picture = self.textura_prawo[0]
+        self.picture = self.textura_lewo[0]
         #ELEMENTY POTRZEBNE:
         #settings
         self.WIDTH = settings().WIDTH

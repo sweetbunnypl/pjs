@@ -9,11 +9,11 @@ Gra autorstwa Karola Bolanowskiego.
 # SPRAWOZDANIE 1
 
 Jak na razie udało mi się zrobić:
--zapoznać się z możliwościami biblioteki pygame, dzięki której będę tworzył grę
--szkielet całej gry, podzieliłem grę na kilka pod folderów (tekstury, gracze, itp.)
--ogólną pętle w której gra będzie działać
--zaimplementować podstawowy odczyt działań na klawiaturze
--zaimplementować proste poruszanie się graczy
+- zapoznać się z możliwościami biblioteki pygame, dzięki której będę tworzył grę
+- szkielet całej gry, podzieliłem grę na kilka pod folderów (tekstury, gracze, itp.)
+- ogólną pętle w której gra będzie działać
+- zaimplementować podstawowy odczyt działań na klawiaturze
+- zaimplementować proste poruszanie się graczy
 
 Do następnego sprawozdania planuję:
 - wprowadzić kolizje między obiektami
@@ -35,8 +35,8 @@ Od ostatniego sprawozdania udało mi się:
 - dodać możliwość skakania przez graczy oraz odbijania piłki
 
 Nie udało mi się jeszcze:
--zaimplementować lepszych elementów graficznych (jak na razie są to jedynie prostokąty i kwadraty, lecz jest to kwestia podmiany tekstur, a na takich obiektach lepiej się pracuje)
--podłoże muzyczne (doszedłem do wniosku, że zajmę się nim na końcu, a jak na razie powinienem bardziej skupić się na elementach funkcjonalnych i problemach, na które natrafiłem) 
+- zaimplementować lepszych elementów graficznych (jak na razie są to jedynie prostokąty i kwadraty, lecz jest to kwestia podmiany tekstur, a na takich obiektach lepiej się pracuje)
+- podłoże muzyczne (doszedłem do wniosku, że zajmę się nim na końcu, a jak na razie powinienem bardziej skupić się na elementach funkcjonalnych i problemach, na które natrafiłem) 
 
 Do następnego sprawozdania planuję:
 - podzielić wszystkie elementy na osobne pliki, zawierające klasy (klasa gracz, piłka itp.)
@@ -77,8 +77,8 @@ Od ostatniego sprawozdania udało mi się:
 - usunąć widoczność hitboxów;
 
 Dodatkowo wprowadziłem:
--sound effects w menu tzn. gdy zmieniamy obecną opcję lub wracamy do poprzedniej słyszymy różniące się od siebie dźwięki;
--zmianę planszy w zależności od godziny ustawionej na komputerze użytkownika;
+- sound effects w menu tzn. gdy zmieniamy obecną opcję lub wracamy do poprzedniej słyszymy różniące się od siebie dźwięki;
+- zmianę planszy w zależności od godziny ustawionej na komputerze użytkownika;
 
 Finalnie nie udało mi się spełnić następujących myśli, które przewijały się podczas projektu:
 - różne skórki postaci i efekty (głownie ze względu na to, że uznałem że nie jest to aż tak potrzebne i postacie wyglądają w miarę estetycznie);

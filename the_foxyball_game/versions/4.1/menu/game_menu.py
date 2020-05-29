@@ -697,7 +697,7 @@ class menu(object):
             text0_0 = font0_0.render("The Foxyball Game", True, BLACK)
         #USTAWIENIA
         if self.menu_position[0] == 1 and self.n == 1:
-            text0_0 = font0_0.render("USTAWIANIA", True, BLACK)
+            text0_0 = font0_0.render("USTAWIENIA", True, BLACK)
         #STEROWANIE
         if self.menu_position[0] == 2 and self.n == 1:
             text0_0 = font0_0.render("STEROWANIE", True, BLACK)
@@ -772,11 +772,11 @@ class menu(object):
         textRect0_0.center = (self.WIDTH/2, 150*self.mnoznik_obiektow)
         self.screen.blit(text0_0, textRect0_0)
 
-        text8 = font2.render("nacisnij 'q' zeby pojsc wstecz", True, BLACK)
+        text8 = font2.render("nacisnij 'q', zeby pojsc wstecz", True, BLACK)
         textRect8 = text8.get_rect()
         self.screen.blit(text8, [50, ((self.HEIGHT-textRect8.height)-50)])
 
-        text9 = font2.render("nacisnij 'enter' zeby pojsc dalej/zmienic wartosc", True, BLACK)
+        text9 = font2.render("nacisnij 'enter', zeby pojsc dalej/zmienic wartosc", True, BLACK)
         textRect9 = text9.get_rect()
         self.screen.blit(text9, [((self.WIDTH-textRect9.width)-50), ((self.HEIGHT-textRect9.height)-50)])
 #------------------------------------------------------------------------------------------------------------------------------------#
